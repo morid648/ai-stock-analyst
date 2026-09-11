@@ -1,0 +1,42 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Environments
+.venv/
+env/
+venv/
+ENV/
+.uv/
+.uv_cache/
+.pyenv/
+
+# Environment variables / secrets
+.env
+.env.*
+!.env.example
+
+# Distribution / packaging
+dist/
+build/
+*.egg
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs and outputs
+logs/
+*.log
+outputs/
+*.png
+
+# OS-specific
+.DS_Store
+Thumbs.db
+*.pid
+*.out
+*.err
