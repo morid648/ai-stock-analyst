@@ -1,6 +1,6 @@
 # Tasks — AI Financial Analyst Agent
 
-> Derived from [prd.md](file:///c:/Users/anshu/code/financial%20analysis/prd.md)
+> Derived from [prd.md](prd.md)
 > Each task is atomic — one PR / one commit scope. Phases are ordered by dependency.
 
 ---
@@ -25,9 +25,9 @@
 > **Dependency:** None — standalone fixes on `finance_crew.py`.
 
 - [x] **T1.1 — Write `sanitize_llm_output()` utility function**
-  Created [utils/sanitize.py](file:///c:/Users/anshu/code/financial%20analysis/utils/sanitize.py) to strip `<think>...</think>` blocks, markdown fences, and extraneous whitespace.
+  Created [utils/sanitize.py](utils/sanitize.py) to strip `<think>...</think>` blocks, markdown fences, and extraneous whitespace.
 - [x] **T1.2 — Unit tests for `sanitize_llm_output()`**
-  14 passing unit tests in [tests/test_sanitize.py](file:///c:/Users/anshu/code/financial%20analysis/tests/test_sanitize.py).
+  14 passing unit tests in [tests/test_sanitize.py](tests/test_sanitize.py).
 - [x] **T1.3 — Integrate sanitizer into `finance_crew.py` pipeline**
   Sanitizer applied directly in `run_financial_analysis()`.
 - [x] **T1.4 — Integrate sanitizer into `server.py` `analyze_stock` tool**
@@ -48,7 +48,7 @@
 - [x] **T2.4 — Remove dead `code_interpreter_tool` variable**
   Deleted unused instantiated `CodeInterpreterTool` variable from `finance_crew.py`.
 - [x] **T2.5 — Write integration test: single-ticker code generation**
-  Integration test verified in [tests/test_crew.py](file:///c:/Users/anshu/code/financial%20analysis/tests/test_crew.py).
+  Integration test verified in [tests/test_crew.py](tests/test_crew.py).
 
 ---
 
@@ -57,15 +57,15 @@
 > **Dependency:** Phase 2 (code writer must produce cleaner code for validation to be meaningful).
 
 - [x] **T3.1 — Add `ast.parse()` validation utility**
-  Created [utils/validate.py](file:///c:/Users/anshu/code/financial%20analysis/utils/validate.py) with `validate_python_code()`.
+  Created [utils/validate.py](utils/validate.py) with `validate_python_code()`.
 - [x] **T3.2 — Unit tests for `validate_python_code()`**
-  7 unit tests in [tests/test_validate.py](file:///c:/Users/anshu/code/financial%20analysis/tests/test_validate.py).
+  7 unit tests in [tests/test_validate.py](tests/test_validate.py).
 - [x] **T3.3 — Implement bounded retry loop (max 3 retries) in `finance_crew.py`**
   Loop capped at 3 attempts with clear `RuntimeError` failure reporting.
 - [x] **T3.4 — Integrate `ast.parse` check before save**
   `save_code()` rejects syntactically invalid code before writing to disk.
 - [x] **T3.5 — Test bounded retry: force a failing scenario**
-  Mocked retry test passing in [tests/test_crew.py](file:///c:/Users/anshu/code/financial%20analysis/tests/test_crew.py).
+  Mocked retry test passing in [tests/test_crew.py](tests/test_crew.py).
 
 ---
 
@@ -74,7 +74,7 @@
 > **Dependency:** Phase 3 (validated code is required before executing).
 
 - [x] **T4.1 — Replace `exec()` with `subprocess.run()` in `run_code_and_show_plot()`**
-  Implemented isolated subprocess execution in [utils/executor.py](file:///c:/Users/anshu/code/financial%20analysis/utils/executor.py).
+  Implemented isolated subprocess execution in [utils/executor.py](utils/executor.py).
 - [x] **T4.2 — Return structured execution result**
   Created `ExecutionResult` model capturing stdout, stderr, chart path, and error state.
 - [x] **T4.3 — Handle timeout gracefully**
@@ -82,9 +82,9 @@
 - [x] **T4.4 — Handle missing file gracefully**
   Returns descriptive error if script is missing or outputs directory is empty.
 - [x] **T4.5 — Unit test: subprocess execution with valid script**
-  Verified in [tests/test_executor.py](file:///c:/Users/anshu/code/financial%20analysis/tests/test_executor.py).
+  Verified in [tests/test_executor.py](tests/test_executor.py).
 - [x] **T4.6 — Unit test: subprocess timeout**
-  Verified timeout handling in [tests/test_executor.py](file:///c:/Users/anshu/code/financial%20analysis/tests/test_executor.py).
+  Verified timeout handling in [tests/test_executor.py](tests/test_executor.py).
 
 ---
 
@@ -93,17 +93,17 @@
 > **Dependency:** Phase 4 (execution must write to the correct paths).
 
 - [x] **T5.1 — Create `outputs/` directory auto-provisioning**
-  Created [utils/files.py](file:///c:/Users/anshu/code/financial%20analysis/utils/files.py) with `ensure_outputs_dir()`.
+  Created [utils/files.py](utils/files.py) with `ensure_outputs_dir()`.
 - [x] **T5.2 — Implement timestamped, ticker-based filenames**
   `generate_filename()` creates names like `TSLA_ytd_20260910_143201.py`.
 - [x] **T5.3 — Update `save_code()` to write to `outputs/` with unique name**
-  Updated `save_code()` in [server.py](file:///c:/Users/anshu/code/financial%20analysis/server.py).
+  Updated `save_code()` in [server.py](server.py).
 - [x] **T5.4 — Update `run_code_and_show_plot()` to use the correct saved file**
   Executes specific script or auto-discovers latest saved script from `outputs/`.
 - [x] **T5.5 — Ensure generated scripts use matching `.png` output path**
   Auto-derives matching `.png` path and checks for generated chart file.
 - [x] **T5.6 — Test: two consecutive queries produce two separate files**
-  Verified in [tests/test_server.py](file:///c:/Users/anshu/code/financial%20analysis/tests/test_server.py).
+  Verified in [tests/test_server.py](tests/test_server.py).
 
 ---
 
@@ -112,7 +112,7 @@
 > **Dependency:** Phases 1–5 (all error paths must be identified first).
 
 - [x] **T6.1 — Define a standard error response format**
-  Created `ToolResponse` model in [utils/types.py](file:///c:/Users/anshu/code/financial%20analysis/utils/types.py).
+  Created `ToolResponse` model in [utils/types.py](utils/types.py).
 - [x] **T6.2 — Wrap `analyze_stock()` in try/except with structured error return**
   Returns structured JSON with user-friendly error messages.
 - [x] **T6.3 — Wrap `save_code()` in try/except with structured error return**
@@ -131,7 +131,7 @@
 > **Dependency:** Phase 6 (logging should capture structured errors).
 
 - [x] **T7.1 — Set up Python `logging` configuration**
-  Created [utils/logging_config.py](file:///c:/Users/anshu/code/financial%20analysis/utils/logging_config.py) with rotating/timestamped file & console logging.
+  Created [utils/logging_config.py](utils/logging_config.py) with rotating/timestamped file & console logging.
 - [x] **T7.2 — Add logging to `finance_crew.py`**
   Logged queries, retry attempts, agent states, and errors.
 - [x] **T7.3 — Add logging to `server.py`**
@@ -148,15 +148,15 @@
 > **Dependency:** Phase 1 (sanitization differs per model).
 
 - [x] **T8.1 — Implement `get_llm()` factory function**
-  Created [utils/llm.py](file:///c:/Users/anshu/code/financial%20analysis/utils/llm.py) supporting Ollama and OpenAI.
+  Created [utils/llm.py](utils/llm.py) supporting Ollama and OpenAI.
 - [x] **T8.2 — Replace hardcoded LLM config in `finance_crew.py`**
   Integrated `get_llm()` into `create_financial_crew()`.
 - [x] **T8.3 — Conditionally apply sanitization based on provider**
   Added `is_thinking_model()` in `utils/llm.py`.
 - [x] **T8.4 — Test: system starts with `LLM_PROVIDER=ollama`**
-  Tested in [tests/test_llm.py](file:///c:/Users/anshu/code/financial%20analysis/tests/test_llm.py).
+  Tested in [tests/test_llm.py](tests/test_llm.py).
 - [x] **T8.5 — Test: system starts with `LLM_PROVIDER=openai`**
-  Tested in [tests/test_llm.py](file:///c:/Users/anshu/code/financial%20analysis/tests/test_llm.py).
+  Tested in [tests/test_llm.py](tests/test_llm.py).
 
 ---
 
@@ -171,11 +171,11 @@
 - [x] **T9.3 — Improve `run_code_and_show_plot` tool docstring & schema**
   Documented subprocess execution model and return schema.
 - [x] **T9.4 — Implement `list_saved_analyses()` MCP tool**
-  Implemented in [server.py](file:///c:/Users/anshu/code/financial%20analysis/server.py).
+  Implemented in [server.py](server.py).
 - [x] **T9.5 — Test `list_saved_analyses` returns correct results**
-  Tested in [tests/test_server.py](file:///c:/Users/anshu/code/financial%20analysis/tests/test_server.py).
+  Tested in [tests/test_server.py](tests/test_server.py).
 - [x] **T9.6 — End-to-end MCP test configuration documented**
-  Claude Desktop configuration documented in [README.md](file:///c:/Users/anshu/code/financial%20analysis/README.md).
+  Claude Desktop configuration documented in [README.md](README.md).
 
 ---
 
@@ -184,17 +184,17 @@
 > **Dependency:** All previous phases (document what's built).
 
 - [x] **T10.1 — Write `README.md`**
-  Created comprehensive, portfolio-ready [README.md](file:///c:/Users/anshu/code/financial%20analysis/README.md).
+  Created comprehensive, portfolio-ready [README.md](README.md).
 - [x] **T10.2 — Create architecture diagram**
-  Mermaid diagram embedded in [README.md](file:///c:/Users/anshu/code/financial%20analysis/README.md).
+  Mermaid diagram embedded in [README.md](README.md).
 - [x] **T10.3 — Add example run documentation**
   Detailed example queries and workflows documented.
 - [x] **T10.4 — Document known limitations**
-  Detailed in [README.md](file:///c:/Users/anshu/code/financial%20analysis/README.md).
+  Detailed in [README.md](README.md).
 - [x] **T10.5 — Add `LICENSE` file**
-  Created MIT [LICENSE](file:///c:/Users/anshu/code/financial%20analysis/LICENSE).
+  Created MIT [LICENSE](LICENSE).
 - [x] **T10.6 — Final repo cleanup**
-  Archived notebook to [notebooks/](file:///c:/Users/anshu/code/financial%20analysis/notebooks/).
+  Archived notebook to [notebooks/](notebooks/).
 
 ---
 
@@ -209,7 +209,7 @@
 - [ ] **T11.3 — Fundamentals agent (4th agent)**
   Add an agent that pulls `yf.Ticker().info` for P/E, EPS, market cap and includes a summary alongside the price chart.
 - [x] **T11.4 — Streamlit web front-end**
-  Built modern, interactive Streamlit frontend in [app.py](file:///c:/Users/anshu/code/financial%20analysis/app.py) featuring query presets, live agent orchestration, sandbox plot rendering, code inspection, and historical analysis gallery. Tested in [tests/test_streamlit_app.py](file:///c:/Users/anshu/code/financial%20analysis/tests/test_streamlit_app.py).
+  Built modern, interactive Streamlit frontend in [app.py](app.py) featuring query presets, live agent orchestration, sandbox plot rendering, code inspection, and historical analysis gallery. Tested in [tests/test_streamlit_app.py](tests/test_streamlit_app.py).
 - [ ] **T11.5 — LLM quality benchmark**
   Run a fixed set of 10 queries against both DeepSeek-R1 7B and GPT-4o, compare success rate, code quality, and chart accuracy.
 

@@ -77,8 +77,8 @@ flowchart TD
 
 1. Clone the repository and enter the directory:
    ```bash
-   git clone https://github.com/anshul/financial-analyst-agent.git
-   cd "financial analysis"
+   git clone https://github.com/morid648/ai-stock-analyst.git
+   cd ai-stock-analyst
    ```
 
 2. Create and activate a virtual environment:
@@ -118,15 +118,17 @@ To connect to **Claude Desktop**, add the server to your `claude_desktop_config.
 {
   "mcpServers": {
     "financial-analyst": {
-      "command": "C:\\Users\\anshu\\code\\financial analysis\\.venv\\Scripts\\python.exe",
+      "command": "<path-to-repo>\\.venv\\Scripts\\python.exe",
       "args": [
-        "C:\\Users\\anshu\\code\\financial analysis\\server.py"
+        "<path-to-repo>\\server.py"
       ],
-      "cwd": "C:\\Users\\anshu\\code\\financial analysis"
+      "cwd": "<path-to-repo>"
     }
   }
 }
 ```
+
+Replace `<path-to-repo>` with the absolute path where you cloned this repo.
 
 #### Available MCP Tools
 
@@ -158,7 +160,7 @@ This starts a local web server (typically at `http://localhost:8501`) featuring 
 
 ## 6. Running Tests
 
-The test suite includes 54 unit and integration tests covering sanitization, AST validation, subprocess execution, timeout handling, file persistence, MCP tools, and the Streamlit web app:
+The test suite includes 61 unit and integration tests covering sanitization, AST validation, subprocess execution, timeout handling, file persistence, MCP tools, and the Streamlit web app:
 
 ```bash
 pytest -v
