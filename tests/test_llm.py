@@ -3,16 +3,10 @@
 import os
 import pytest
 from unittest.mock import patch, MagicMock
-from utils.llm import get_llm, is_thinking_model
+from utils.llm import get_llm
 
 
 class TestLlmFactory:
-    def test_is_thinking_model_detection(self):
-        assert is_thinking_model("deepseek-r1:7b") is True
-        assert is_thinking_model("ollama/deepseek-r1:8b") is True
-        assert is_thinking_model("gpt-4o") is False
-        assert is_thinking_model("claude-3-5-sonnet") is False
-
     @patch.dict(os.environ, {"LLM_PROVIDER": "ollama", "OLLAMA_MODEL": "deepseek-r1:7b", "OLLAMA_BASE_URL": "http://localhost:11434"})
     @patch("crewai.LLM")
     def test_get_llm_ollama(self, mock_llm_cls):

@@ -6,20 +6,13 @@ sandboxed subprocess execution, and chart rendering.
 """
 
 import os
-import sys
 from pathlib import Path
 from datetime import datetime
 from typing import Optional
 
-# Ensure UTF-8 output on Windows
-os.environ["PYTHONUTF8"] = "1"
-os.environ["PYTHONIOENCODING"] = "utf-8"
-if hasattr(sys.stdout, "reconfigure"):
-    try:
-        sys.stdout.reconfigure(encoding="utf-8")
-        sys.stderr.reconfigure(encoding="utf-8")
-    except Exception:
-        pass
+from utils.env_setup import configure_utf8
+
+configure_utf8()
 
 import streamlit as st
 from dotenv import load_dotenv

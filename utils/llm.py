@@ -2,25 +2,10 @@
 
 import os
 from pathlib import Path
-from typing import Optional
 from dotenv import load_dotenv
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(PROJECT_ROOT / ".env")
-
-
-def is_thinking_model(model_name: Optional[str] = None) -> bool:
-    """Returns True if the model is known to emit <think>...</think> reasoning blocks."""
-    if not model_name:
-        provider = os.getenv("LLM_PROVIDER", "ollama").lower().strip()
-        if provider == "groq":
-            model_name = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
-        elif provider == "ollama":
-            model_name = os.getenv("OLLAMA_MODEL", "deepseek-r1:7b")
-        else:
-            model_name = os.getenv("OPENAI_MODEL", "gpt-4o")
-    
-    return "deepseek-r1" in model_name.lower() or "r1" in model_name.lower()
 
 
 def get_llm():

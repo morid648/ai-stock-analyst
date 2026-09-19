@@ -18,14 +18,12 @@ DEFAULT_TIMEOUT_SECONDS = 30
 def execute_script(
     script_path: Union[str, Path],
     timeout_seconds: int = DEFAULT_TIMEOUT_SECONDS,
-    chart_path: Optional[Union[str, Path]] = None,
 ) -> ExecutionResult:
     """Executes a Python script in an isolated subprocess with timeout and safety guarantees.
 
     Args:
         script_path: Path to the Python script to execute.
         timeout_seconds: Maximum allowed runtime in seconds before timing out.
-        chart_path: Expected path to the generated chart file, or None to auto-derive.
 
     Returns:
         ExecutionResult containing success flag, captured stdout/stderr, and paths.
@@ -39,10 +37,7 @@ def execute_script(
         )
 
     resolved_script = path.resolve()
-    if chart_path is None:
-        expected_chart = get_associated_chart_path(resolved_script)
-    else:
-        expected_chart = Path(chart_path).resolve()
+    expected_chart = get_associated_chart_path(resolved_script)
 
     try:
         run_start_time = time.time()
