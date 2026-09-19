@@ -4,7 +4,6 @@ version = "0.1.0"
 description = "A CrewAI-based financial analysis system"
 dependencies = [
     "crewai>=0.121.0",
-    "crewai-tools>=0.45.0",
     "matplotlib>=3.10.3",
     "mcp[cli]>=1.9.1",
     "pandas>=2.2.3",
